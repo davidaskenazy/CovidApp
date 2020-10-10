@@ -1,13 +1,50 @@
+import 'dart:convert';
+
 import 'package:covidApp/datasource.dart';
+import 'package:covidApp/pages/countyPage.dart';
+import 'package:covidApp/panels/infoPanel.dart';
+import 'package:covidApp/panels/mosteffectedcountries.dart';
 import 'package:covidApp/panels/worldwidepanel.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class HomePage extends StatefulWidget {
+  final Map worldData;
+
+  const HomePage({Key key, this.worldData}) : super(key: key);
+
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
+  Map worldData;
+
+  fetchWorldWideData() async {
+    http.Response response =
+        await http.get('https://corona.lmao.ninja/v3/covid-19/all');
+    setState(() {
+      worldData = jsonDecode(response.body);
+    });
+  }
+
+  List countryData;
+
+  fetchCountryData() async {
+    http.Response response =
+        await http.get('https://corona.lmao.ninja/v3/covid-19/countries');
+    setState(() {
+      countryData = jsonDecode(response.body);
+    });
+  }
+
+  @override
+  void initState() {
+    fetchWorldWideData();
+    fetchCountryData();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,12 +70,67 @@ class _HomePageState extends State<HomePage> {
                       fontSize: 16))),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text(
+                  'WorldWide',
+                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => CountryPage()));
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: primaryBlack,
+                        borderRadius: BorderRadius.circular(15)),
+                    padding: EdgeInsets.all(10),
+                    child: Text(
+                      'Regional',
+                      style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          worldData == null
+              ? CircularProgressIndicator()
+              : WorldWidePanel(
+                  worldData: worldData,
+                ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
             child: Text(
-              'WorldWide',
+              'Most affected Countries',
               style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
             ),
           ),
-          WorldWidePanel()
+
+          SizedBox(
+            height: 10,
+          ),
+          countryData == null
+              ? Container()
+              : MostAffectedPanel(
+                  countryData: countryData,
+                ),
+
+          InfoPanel(),
+          SizedBox(
+            height: 20,
+          ),
+          Center(
+              child: Text('WE ARE TOGETHER IN THE FIGHT', style: TextStyle())),
+          SizedBox(
+            height: 50,
+          )
+          //
         ],
       )),
     );
