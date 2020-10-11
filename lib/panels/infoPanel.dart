@@ -1,6 +1,5 @@
 import 'package:covidApp/datasource.dart';
 import 'package:flutter/material.dart';
-import 'package:covidApp/datasource.dart';
 import 'package:covidApp/pages/faqs.dart';
 import 'package:url_launcher/url_launcher.dart';
 
