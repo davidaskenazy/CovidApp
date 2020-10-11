@@ -1,6 +1,7 @@
 import 'package:covidApp/datasource.dart';
-import 'package:covidApp/pages/faqs.dart';
 import 'package:flutter/material.dart';
+import 'package:covidApp/datasource.dart';
+import 'package:covidApp/pages/faqs.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class InfoPanel extends StatelessWidget {
@@ -28,7 +29,10 @@ class InfoPanel extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                         fontSize: 18),
                   ),
-                  Icon(Icons.arrow_forward, color: Colors.white)
+                  Icon(
+                    Icons.arrow_forward,
+                    color: Colors.white,
+                  )
                 ],
               ),
             ),
@@ -51,7 +55,10 @@ class InfoPanel extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                         fontSize: 18),
                   ),
-                  Icon(Icons.arrow_forward, color: Colors.white)
+                  Icon(
+                    Icons.arrow_forward,
+                    color: Colors.white,
+                  )
                 ],
               ),
             ),
@@ -75,7 +82,10 @@ class InfoPanel extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                         fontSize: 18),
                   ),
-                  Icon(Icons.arrow_forward, color: Colors.white)
+                  Icon(
+                    Icons.arrow_forward,
+                    color: Colors.white,
+                  )
                 ],
               ),
             ),
